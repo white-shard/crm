@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+@import './fonts';
+
+body {
+  font-family: 'JetBrains Mono', sans-serif;
+}
+
+@theme inline {
+  --color-background: #e6e6e6;
+  --color-foreground: #ffffff;
+  --color-primary: #111525;
+  --color-accent: #6b4de6;
+
+  --color-text-background: #667085;
+
+  --color-border: #ccdbeb;
+
+  --radius-base: calc(0.625rem - 4px);
+}

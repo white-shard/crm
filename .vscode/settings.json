@@ -1,0 +1,14 @@
+{
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/.DS_Store": true,
+		"**/Thumbs.db": true,
+		"**/.expo": true,
+		"**/.expo-shared": true,
+		"**/.idea": true,
+		"**/.nuxt": true
+	},
+	"hide-files.files": []
+}
