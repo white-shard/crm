@@ -18,3 +18,60 @@ body {
 
   --radius-base: calc(0.625rem - 4px);
 }
+
+/* CRM Styles */
+
+.crm-input {
+  display: block;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  padding: 10px 12px;
+}
+
+.crm-label {
+  color: var(--color-text-background);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  display: grid;
+  row-gap: 8px;
+}
+
+.crm-button-primary {
+  background-color: var(--color-accent);
+  border-radius: var(--radius-base);
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  display: block;
+  cursor: pointer;
+
+  &:hover {
+    background-color: color-mix(in oklab, var(--color-accent) 90%, transparent);
+  }
+}
+
+.crm-button-secondary {
+  background-color: transparent;
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-accent);
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  display: block;
+  cursor: pointer;
+
+  &:hover {
+    background-color: color-mix(in oklab, var(--color-accent) 10%, transparent);
+  }
+}
+
+.crm-link {
+  color: var(--color-accent);
+  text-decoration: underline;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
