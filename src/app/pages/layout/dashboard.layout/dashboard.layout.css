@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.dashboard_wrapper {
+  display: grid;
+  grid-template-rows: 48px 1fr;
+  width: 100%;
+}
+
+.dashboard_header {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+}
