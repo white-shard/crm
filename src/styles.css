@@ -76,3 +76,13 @@ body {
     opacity: 0.7;
   }
 }
+
+*::-webkit-scrollbar {
+  width: 2px;
+  height: 8px;
+  background-color: var(--color-foreground);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: color-mix(in oklab, var(--color-accent) 25%, transparent);
+}

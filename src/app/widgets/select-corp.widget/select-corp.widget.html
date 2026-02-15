@@ -1,3 +1,42 @@
-<svg class="icon size-6 text-text-background" icon="corp" />
-<span class="corp-name">Выберите компанию</span>
-<svg class="icon size-4 text-text-background" icon="caret-down" />
+<div (click)="hasDropdownOpened.set(!hasDropdownOpened())" class="select-corp-wrapper h-full">
+  <svg class="icon size-6 text-text-background" icon="corp" />
+  <span class="corp-name inline-block">
+    @if (!!selectedCorp()) {
+      {{ selectedCorp() }}
+    } @else {
+      Выберите компанию
+    }
+  </span>
+  <svg class="icon size-4 text-text-background" icon="caret-down" />
+</div>
+
+@if (hasDropdownOpened()) {
+  <div class="dropdown">
+    <div class="flex-1">
+      @if (corpList.length > 0) {
+        <ul class="max-h-64 overflow-y-scroll">
+          @for (item of corpList; track $index) {
+            <li
+              (click)="selectedCorp.set(item); hasDropdownOpened.set(false)"
+              class="p-4 not-last:border-b text-sm border-text-background/25 hover:cursor-pointer hover:bg-accent/10"
+            >
+              {{ item }}
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="flex flex-col justify-center items-center text-center h-full py-8">
+          <svg class="size-12 text-text-background" icon="list" />
+          <span>Список компаний пуст, добавьте новую</span>
+        </div>
+      }
+    </div>
+    <div
+      class="flex items-center justify-center gap-2 py-2 hover:bg-accent/10 cursor-pointer hover:text-accent border-t border-text-background/25 text-text-background"
+    >
+      <svg class="size-4" icon="plus" />
+      <!-- TODO Добавить функционал добавления и удаления компании -->
+      <span class="text-text-background">Добавить компанию</span>
+    </div>
+  </div>
+}
