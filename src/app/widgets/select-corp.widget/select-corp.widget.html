@@ -13,14 +13,14 @@
 @if (hasDropdownOpened()) {
   <div class="dropdown">
     <div class="flex-1">
-      @if (corpList.length > 0) {
+      @if ((corpList$ | async)?.length) {
         <ul class="max-h-64 overflow-y-scroll">
-          @for (item of corpList; track $index) {
+          @for (item of corpList$ | async; track item.id) {
             <li
-              (click)="selectedCorp.set(item); hasDropdownOpened.set(false)"
+              (click)="selectedCorp.set(item.name); hasDropdownOpened.set(false)"
               class="p-4 not-last:border-b text-sm border-text-background/25 hover:cursor-pointer hover:bg-accent/10"
             >
-              {{ item }}
+              {{ item.name }}
             </li>
           }
         </ul>
@@ -31,6 +31,7 @@
         </div>
       }
     </div>
+
     <app-dialog
       #dialog
       title="Новая компания"
@@ -41,11 +42,19 @@
         class="flex items-center justify-center gap-2 py-2 hover:bg-accent/10 cursor-pointer hover:text-accent border-t border-text-background/25 text-text-background"
       >
         <svg class="size-4" icon="plus" />
-        <!-- TODO Добавить функционал добавления и удаления компании -->
         <span class="text-text-background">Добавить компанию</span>
       </div>
 
-      <div dialogClose dialog-body>Body</div>
+      <form dialog-body class="w-full pt-4 space-y-4" (ngSubmit)="onSubmit()" [formGroup]="form">
+        <label class="crm-label">
+          Название
+          <input class="crm-input" formControlName="name" type="email" name="am" />
+        </label>
+        <div class="flex gap-2">
+          <button class="crm-button-primary w-full" type="submit">Добавить</button>
+          <button dialogClose class="crm-button-secondary w-full" href="#">Отмена</button>
+        </div>
+      </form>
     </app-dialog>
   </div>
 }
