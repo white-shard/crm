@@ -31,12 +31,21 @@
         </div>
       }
     </div>
-    <div
-      class="flex items-center justify-center gap-2 py-2 hover:bg-accent/10 cursor-pointer hover:text-accent border-t border-text-background/25 text-text-background"
+    <app-dialog
+      #dialog
+      title="Новая компания"
+      description="Добавьте компанию и готовьтесь принимать заявки"
     >
-      <svg class="size-4" icon="plus" />
-      <!-- TODO Добавить функционал добавления и удаления компании -->
-      <span class="text-text-background">Добавить компанию</span>
-    </div>
+      <div
+        dialog-trigger
+        class="flex items-center justify-center gap-2 py-2 hover:bg-accent/10 cursor-pointer hover:text-accent border-t border-text-background/25 text-text-background"
+      >
+        <svg class="size-4" icon="plus" />
+        <!-- TODO Добавить функционал добавления и удаления компании -->
+        <span class="text-text-background">Добавить компанию</span>
+      </div>
+
+      <div dialogClose dialog-body>Body</div>
+    </app-dialog>
   </div>
 }
