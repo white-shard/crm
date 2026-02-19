@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Dialog } from '../../common-ui/dialog/dialog';
 import { DialogCloseDirective } from '../../common-ui/dialog/directive/dialog-close.directive';
 import { SvgIcon } from '../../common-ui/svg-icon/svg-icon';
-import { CorporationService } from '../../corporations/corporation.service';
+import { injectCreateCorporationMutation } from '../../corporations/corporation.mutation';
+import { injectAllUserCorporations } from '../../corporations/corporation.query';
 
 @Component({
   selector: 'select-corp-widget',
@@ -13,10 +14,8 @@ import { CorporationService } from '../../corporations/corporation.service';
   styleUrl: './select-corp.widget.css',
 })
 export class SelectCorpWidget {
-  corpService = inject(CorporationService);
-  // TODO Загружать список компаний пользователя
-
-  corpList$ = this.corpService.getAll();
+  allCorpQuery = injectAllUserCorporations();
+  createCorpMutation = injectCreateCorporationMutation();
 
   hasDropdownOpened = signal<boolean>(false);
   // TODO Вынести функционал выбранной компании в сервис
@@ -29,9 +28,7 @@ export class SelectCorpWidget {
   onSubmit() {
     if (this.form.valid) {
       // @ts-ignore
-      this.corpService.create({ ...this.form.value, publicKey: 'NO_KEY' }).subscribe((res) => {
-        console.log(res);
-      });
+      this.createCorpMutation.mutate({ ...this.form.value, publicKey: 'NO_KEY' });
     } else console.log('Form invalid');
   }
 }

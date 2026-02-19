@@ -13,22 +13,34 @@
 @if (hasDropdownOpened()) {
   <div class="dropdown">
     <div class="flex-1">
-      @if ((corpList$ | async)?.length) {
-        <ul class="max-h-64 overflow-y-scroll">
-          @for (item of corpList$ | async; track item.id) {
-            <li
-              (click)="selectedCorp.set(item.name); hasDropdownOpened.set(false)"
-              class="p-4 not-last:border-b text-sm border-text-background/25 hover:cursor-pointer hover:bg-accent/10"
-            >
-              {{ item.name }}
-            </li>
-          }
-        </ul>
-      } @else {
+      @if (allCorpQuery.isPending()) {
         <div class="flex flex-col justify-center items-center text-center h-full py-8">
           <svg class="size-12 text-text-background" icon="list" />
-          <span>Список компаний пуст, добавьте новую</span>
+          <span>Загрузка...</span>
         </div>
+      } @else if (allCorpQuery.isError()) {
+        <div class="flex flex-col justify-center items-center text-center h-full py-8">
+          <svg class="size-12 text-text-background" icon="list" />
+          <span>Ошибка: {{ allCorpQuery.error().message }}</span>
+        </div>
+      } @else {
+        @if (allCorpQuery.data()?.length) {
+          <ul class="max-h-64 overflow-y-scroll">
+            @for (item of allCorpQuery.data(); track item.id) {
+              <li
+                (click)="selectedCorp.set(item.name); hasDropdownOpened.set(false)"
+                class="p-4 not-last:border-b text-sm border-text-background/25 hover:cursor-pointer hover:bg-accent/10"
+              >
+                {{ item.name }}
+              </li>
+            }
+          </ul>
+        } @else {
+          <div class="flex flex-col justify-center items-center text-center h-full py-8">
+            <svg class="size-12 text-text-background" icon="list" />
+            <span>Список компаний пуст, добавьте новую</span>
+          </div>
+        }
       }
     </div>
 
