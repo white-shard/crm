@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
+import { AuthorizedAccessGuard, NotAuthorizedAccessGuard } from './auth/access.guard';
 import { AuthPage } from './pages/auth.page/auth.page';
+import { DashboardPage } from './pages/dashboard.page/dashboard.page';
 import { LandingPage } from './pages/landing.page/landing.page';
+import { DashboardLayout } from './pages/layout/dashboard.layout/dashboard.layout';
 
 export const routes: Routes = [
   {
@@ -10,5 +13,17 @@ export const routes: Routes = [
   {
     path: 'auth',
     component: AuthPage,
+    canActivate: [NotAuthorizedAccessGuard],
+  },
+  {
+    path: '',
+    component: DashboardLayout,
+    canActivate: [AuthorizedAccessGuard],
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardPage,
+      },
+    ],
   },
 ];

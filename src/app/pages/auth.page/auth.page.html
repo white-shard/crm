@@ -1,28 +1,30 @@
-<div class="min-w-md bg-foreground p-8 rounded-base flex flex-col items-center shadow-2xl">
+<div
+  class="w-screen sm:w-auto sm:min-w-md bg-foreground p-8 rounded-base flex flex-col items-center shadow-2xl"
+>
   <img class="w-48 mb-4" alt="ShardCRM Logo" src="/assets/imgs/logo.svg" />
   <span class="font-bold text-text-background">Войдите, чтобы продолжить</span>
 
-  <form class="w-full pt-4 space-y-4" action="">
+  <form class="w-full pt-4 space-y-4" (ngSubmit)="onSubmit()" [formGroup]="form">
     <label class="crm-label">
       Электронная почта / Логин
-      <input class="crm-input" type="email" name="username" />
+      <input class="crm-input" formControlName="username" type="email" name="username" />
     </label>
     <label class="crm-label">
       Пароль
-      <input class="crm-input" type="password" name="password" />
+      <input class="crm-input" formControlName="password" type="password" name="password" />
     </label>
     <div class="flex justify-end">
       <!-- TODO Установить ссылку на страницу восстановления пароля -->
       <a class="crm-link text-sm" href="#">Не помню пароль</a>
     </div>
-    <button class="crm-button-primary w-full hover:opacity-90" type="submit">Продолжить</button>
-    <button class="crm-button-secondary w-full hover:bg-accent/10!" href="#">
-      Зарегистрироваться
-    </button>
+    <button class="crm-button-primary w-full" type="submit">Продолжить</button>
+    <button class="crm-button-secondary w-full" href="#">Зарегистрироваться</button>
     <p class="max-w-sm text-sm text-justify">
       Нажимая кнопку «Зарегистрироваться», вы даёте
+      <!-- TODO Установить ссылку на страницу об использовании персональных данных -->
       <a class="crm-link" href="#">согласие</a>
       на обработку и хранение ваших персональных данных в соответствии с
+      <!-- TODO Установить ссылку на страницу политики конфиденциальности -->
       <a class="crm-link" href="#">Политикой конфиденциальности</a>
     </p>
   </form>

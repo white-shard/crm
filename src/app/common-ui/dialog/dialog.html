@@ -1,0 +1,25 @@
+<div (click)="isOpened.set(true)">
+  <ng-content select="[dialog-trigger]"></ng-content>
+</div>
+
+@if (isOpened()) {
+  <div
+    (click)="onBackgroundClick($event)"
+    class="fixed w-screen h-screen top-0 left-0 bg-black/50 z-10 flex justify-center items-center"
+  >
+    <div
+      (click)="onDialogClick($event)"
+      class="bg-white px-8 py-4 min-w-lg rounded-base flex flex-col"
+    >
+      @if (title.length) {
+        <span class="text-xl text-primary font-bold">{{ title }}</span>
+      }
+      @if (description.length) {
+        <p class="text-sm text-text-background">{{ description }}</p>
+      }
+      <div class="mt-4">
+        <ng-content select="[dialog-body]"></ng-content>
+      </div>
+    </div>
+  </div>
+}

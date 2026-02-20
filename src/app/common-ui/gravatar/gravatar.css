@@ -1,0 +1,22 @@
+:host {
+  position: relative;
+  width: 32px;
+  display: flex;
+  background-color: var(--color-accent);
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+  overflow: hidden;
+  user-select: none;
+
+  justify-content: center;
+  align-items: center;
+  color: var(--color-primary-foreground);
+  font-weight: 500;
+  font-size: 16px;
+  margin: 8px 16px 8px 8px;
+
+  &:hover {
+    background-color: color-mix(in oklab, var(--color-accent) 90%, transparent);
+    cursor: pointer;
+  }
+}
