@@ -1,0 +1,29 @@
+<ng-content
+  [*ngTemplateOutlet]="ddMethods"
+  [*ngTemplateOutletContext]="{
+    toggle: this.toggle(),
+    open: this.open(),
+    close: this.close(),
+    getIsOpened: this.getIsOpened(),
+  }"
+/>
+
+@if (isOpened()) {
+  <div
+    class="absolute z-10 bg-white rounded-base drop-shadow-lg mt overflow-hidden"
+    [style.left]="position === 'left' ? 0 : 'auto'"
+    [style.right]="position === 'right' ? 0 : 'auto'"
+  >
+    @for (item of values; track item.value) {
+      <div
+        (click)="select(item.value); item?.onSelect()"
+        class="flex gap-4 items-center justify-between px-4 py-2 not-last:border-b border-text-background/20 hover:cursor-pointer hover:bg-primary/10"
+      >
+        @if (!!item.icon) {
+          <svg [style.color]="item.color ?? 'auto'" class="size-5" [icon]="item.icon" />
+        }
+        <span class="flex-1">{{ item.label ?? item.value }}</span>
+      </div>
+    }
+  </div>
+}
