@@ -1,11 +1,19 @@
-<div (click)="isOpened.set(true)">
-  <ng-content select="[dialog-trigger]"></ng-content>
-</div>
+<ng-content
+  select="[dialog-trigger]"
+  [*ngTemplateOutlet]="dMethods"
+  [*ngTemplateOutletContext]="{
+    open: this.open(),
+    close: this.close(),
+    closeArrow: this.closeArrow(),
+    openArrow: this.openArrow(),
+    getIsOpened: this.getIsOpened(),
+  }"
+/>
 
 @if (isOpened()) {
   <div
     (click)="onBackgroundClick($event)"
-    class="fixed w-screen h-screen top-0 left-0 bg-black/50 z-10 flex justify-center items-center"
+    class="fixed w-screen h-screen top-0 left-0 bg-black/50 z-50 flex justify-center items-center"
   >
     <div
       (click)="onDialogClick($event)"
