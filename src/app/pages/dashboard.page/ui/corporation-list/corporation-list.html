@@ -9,7 +9,7 @@
     <span>Ошибка загрузки, попробуйте позже</span>
   } @else {
     @for (item of allCorpQuery.data(); track item.id) {
-      <div class="bg-white h-64 flex flex-col justify-between p-6 rounded-base">
+      <div class="bg-white h-64 flex flex-col justify-between p-6 rounded-base shadow-lg">
         <div class="flex gap-4 justify-between">
           <svg class="icon size-6 text-text-background" icon="corp" />
           <span class="text-lg flex-1 font-medium text-text-background">{{ item.name }}</span>
