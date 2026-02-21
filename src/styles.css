@@ -77,7 +77,7 @@ body {
   }
 
   &:disabled {
-    background-color: color-mix(in oklab, var(--color-primary) 50%, transparent);
+    background-color: color-mix(in oklab, var(--color-primary) 25%, transparent);
     cursor: not-allowed;
   }
 }

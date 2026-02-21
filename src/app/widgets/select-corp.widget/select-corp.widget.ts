@@ -31,7 +31,10 @@ export class SelectCorpWidget {
       this.createCorpMutation
         // @ts-ignore
         .mutateAsync({ ...this.form.value, publicKey: 'NO_KEY' })
-        .then(() => callback?.());
+        .then(() => {
+          this.form.reset();
+          callback?.();
+        });
     } else console.log('Form invalid');
   }
 
