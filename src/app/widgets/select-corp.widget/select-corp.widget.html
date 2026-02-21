@@ -1,8 +1,14 @@
 <div (click)="hasDropdownOpened.set(!hasDropdownOpened())" class="select-corp-wrapper h-full">
   <svg class="icon size-6 text-text-background" icon="corp" />
   <span class="corp-name inline-block">
-    @if (!!selectedCorp()) {
-      {{ selectedCorp() }}
+    @if (!!selectedCorpId()) {
+      @if (allCorpQuery.isSuccess()) {
+        {{ findCorpById(allCorpQuery.data(), selectedCorpId()!)?.name }}
+      } @else if (allCorpQuery.isPending()) {
+        Загрузка...
+      } @else {
+        Выберите компанию
+      }
     } @else {
       Выберите компанию
     }
@@ -11,24 +17,23 @@
 </div>
 
 @if (hasDropdownOpened()) {
-  <div class="dropdown">
+  <div class="dropdown shadow-2xl">
     <div class="flex-1">
       @if (allCorpQuery.isPending()) {
         <div class="flex flex-col justify-center items-center text-center h-full py-8">
-          <svg class="size-12 text-text-background" icon="list" />
-          <span>Загрузка...</span>
+          <app-loader />
         </div>
       } @else if (allCorpQuery.isError()) {
         <div class="flex flex-col justify-center items-center text-center h-full py-8">
           <svg class="size-12 text-text-background" icon="list" />
-          <span>Ошибка: {{ allCorpQuery.error().message }}</span>
+          <span>Ошибка загрузки</span>
         </div>
       } @else {
         @if (allCorpQuery.data()?.length) {
           <ul class="max-h-64 overflow-y-scroll">
             @for (item of allCorpQuery.data(); track item.id) {
               <li
-                (click)="selectedCorp.set(item.name); hasDropdownOpened.set(false)"
+                (click)="selectedCorpId.set(item.id); hasDropdownOpened.set(false)"
                 class="p-4 not-last:border-b text-sm border-text-background/25 hover:cursor-pointer hover:bg-accent/10"
               >
                 {{ item.name }}
@@ -45,28 +50,38 @@
     </div>
 
     <app-dialog
-      #dialog
+      #dMethods
       title="Новая компания"
       description="Добавьте компанию и готовьтесь принимать заявки"
     >
-      <div
-        dialog-trigger
-        class="flex items-center justify-center gap-2 py-2 hover:bg-accent/10 cursor-pointer hover:text-accent border-t border-text-background/25 text-text-background"
-      >
-        <svg class="size-4" icon="plus" />
-        <span class="text-text-background">Добавить компанию</span>
+      <div dialog-trigger>
+        <div
+          (click)="dMethods.open()"
+          class="flex items-center justify-center gap-2 py-2 hover:bg-accent/10 cursor-pointer hover:text-accent border-t border-text-background/25 text-text-background"
+        >
+          <svg class="size-4" icon="plus" />
+          <span class="text-text-background">Добавить компанию</span>
+        </div>
       </div>
 
-      <form dialog-body class="w-full pt-4 space-y-4" (ngSubmit)="onSubmit()" [formGroup]="form">
-        <label class="crm-label">
-          Название
-          <input class="crm-input" formControlName="name" type="email" name="am" />
-        </label>
-        <div class="flex gap-2">
-          <button class="crm-button-primary w-full" type="submit">Добавить</button>
-          <button dialogClose class="crm-button-secondary w-full" href="#">Отмена</button>
-        </div>
-      </form>
+      <div dialog-body>
+        <form
+          class="w-full pt-4 space-y-4"
+          (ngSubmit)="onSubmit(dMethods.closeArrow())"
+          [formGroup]="form"
+        >
+          <label class="crm-label">
+            Название
+            <input class="crm-input" formControlName="name" type="email" name="am" />
+          </label>
+          <div class="flex gap-2 mt-8">
+            <button class="crm-button-primary w-full" type="submit">Добавить</button>
+            <button (click)="dMethods.close()" class="crm-button-secondary w-full" href="#">
+              Отмена
+            </button>
+          </div>
+        </form>
+      </div>
     </app-dialog>
   </div>
 }
