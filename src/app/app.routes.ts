@@ -1,5 +1,5 @@
+import { AuthorizedAccessGuard, NotAuthorizedAccessGuard } from '@/models/auth/access.guard';
 import { Routes } from '@angular/router';
-import { AuthorizedAccessGuard, NotAuthorizedAccessGuard } from './auth/access.guard';
 import { AuthPage } from './pages/auth.page/auth.page';
 import { DashboardPage } from './pages/dashboard.page/dashboard.page';
 import { LandingPage } from './pages/landing.page/landing.page';
