@@ -1,0 +1,55 @@
+<h1 class="text-2xl font-bold text-primary mb-4">Мои компании</h1>
+
+<div class="grid lg:grid-cols-3 xl:grid-cols-4 gap-8">
+  @if (allCorpQuery.isPending()) {
+    @for (item of [1, 2, 3, 4]; track $index) {
+      <div class="bg-primary/15 h-64 block rounded-base animate-pulse"></div>
+    }
+  } @else if (allCorpQuery.isError()) {
+    <span>Ошибка загрузки, попробуйте позже</span>
+  } @else {
+    @for (item of allCorpQuery.data(); track item.id) {
+      <div class="bg-white h-64 flex flex-col justify-between p-6 rounded-base shadow-lg">
+        <div class="flex gap-4 justify-between">
+          <svg class="icon size-6 text-text-background" icon="corp" />
+          <span class="text-lg flex-1 font-medium text-text-background">{{ item.name }}</span>
+          <dropdown
+            #ddMethods
+            position="right"
+            [values]="[
+              { icon: 'edit', label: 'Изменить', value: 'edit' },
+              {
+                icon: 'trash',
+                color: 'var(--color-red-500)',
+                label: 'Удалить',
+                value: 'delete',
+                onClick: deleteCorpArrow(item.id),
+              },
+            ]"
+          >
+            <svg
+              (click)="ddMethods.toggle()"
+              class="icon size-6 text-text-background hover:text-primary hover:cursor-pointer"
+              icon="vmenu"
+            />
+          </dropdown>
+        </div>
+        <div>
+          <span class="font-bold block mb-2">Заявки:</span>
+          <div class="flex flex-wrap gap-x-4 text-text-background">
+            <span><b>Новые:</b> 0</span>
+            <span><b>Всего:</b> 0</span>
+          </div>
+        </div>
+        <div>
+          <span class="font-bold block mb-2">Прибыль:</span>
+          <div class="flex flex-wrap gap-x-4 text-text-background">
+            <span><b>Текущий месяц:</b> 0 руб.</span>
+            <span><b>Прогноз:</b> 0 руб.</span>
+            <span><b>Всего:</b> 0 руб.</span>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

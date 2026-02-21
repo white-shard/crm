@@ -1,6 +1,6 @@
+import { environment } from '@/env/environment';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { CorporationResponseDTO, CreateCorporationRequestDTO } from './dto/create.dto';
 
 @Injectable({
@@ -19,6 +19,12 @@ export class CorporationService {
 
   create(payload: CreateCorporationRequestDTO) {
     return this.http.post<CorporationResponseDTO>(this.baseURL, payload, {
+      withCredentials: true,
+    });
+  }
+
+  delete(id: string) {
+    return this.http.delete<CorporationResponseDTO>(`${this.baseURL}/${id}`, {
       withCredentials: true,
     });
   }

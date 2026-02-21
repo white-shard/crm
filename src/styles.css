@@ -27,6 +27,11 @@ body {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-base);
   padding: 10px 12px;
+
+  &:disabled {
+    background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
+    cursor: not-allowed;
+  }
 }
 
 .crm-label {
@@ -51,12 +56,16 @@ body {
   &:hover {
     background-color: color-mix(in oklab, var(--color-accent) 90%, transparent);
   }
+
+  &:disabled {
+    background-color: color-mix(in oklab, var(--color-accent) 50%, transparent);
+    cursor: not-allowed;
+  }
 }
 
 .crm-button-secondary {
-  background-color: transparent;
+  background-color: var(--color-background);
   border-radius: var(--radius-base);
-  border: 1px solid var(--color-accent);
   padding: 10px 12px;
   font-size: 12px;
   font-weight: 700;
@@ -64,7 +73,12 @@ body {
   cursor: pointer;
 
   &:hover {
-    background-color: color-mix(in oklab, var(--color-accent) 10%, transparent);
+    background-color: color-mix(in oklab, var(--color-primary) 15%, transparent);
+  }
+
+  &:disabled {
+    background-color: color-mix(in oklab, var(--color-primary) 25%, transparent);
+    cursor: not-allowed;
   }
 }
 

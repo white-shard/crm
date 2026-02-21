@@ -1,7 +1,7 @@
+import { environment } from '@/env/environment';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { tap } from 'rxjs';
-import { environment } from '../../environments/environment';
 import { LoginRequestDTO, LoginResponseDTO } from './dto/login.dto';
 
 @Injectable({

@@ -1,19 +1,11 @@
-import { Component, InjectionToken, Input, signal } from '@angular/core';
-
-export const DIALOG_CLOSE = new InjectionToken<() => void>('DIALOG_CLOSE');
+import { Component, Input, signal } from '@angular/core';
 
 @Component({
   selector: 'app-dialog',
   imports: [],
   templateUrl: './dialog.html',
   styleUrl: './dialog.css',
-  providers: [
-    {
-      provide: DIALOG_CLOSE,
-      useFactory: (dialog: Dialog) => dialog.close.bind(dialog),
-      deps: [Dialog],
-    },
-  ],
+  standalone: true,
 })
 export class Dialog {
   isOpened = signal<boolean>(false);
@@ -21,19 +13,31 @@ export class Dialog {
   @Input() title: string = '';
   @Input() description: string = '';
 
-  open() {
+  public open() {
     this.isOpened.set(true);
   }
 
-  close() {
+  public openArrow() {
+    return () => this.open();
+  }
+
+  public close() {
     this.isOpened.set(false);
   }
 
-  onDialogClick(event: MouseEvent) {
+  public closeArrow() {
+    return () => this.close();
+  }
+
+  public getIsOpened() {
+    return this.isOpened();
+  }
+
+  protected onDialogClick(event: MouseEvent) {
     event.stopPropagation();
   }
 
-  onBackgroundClick(event: MouseEvent) {
+  protected onBackgroundClick(event: MouseEvent) {
     event.stopPropagation();
     this.close();
   }
