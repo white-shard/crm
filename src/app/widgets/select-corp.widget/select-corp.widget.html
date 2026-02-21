@@ -72,11 +72,28 @@
         >
           <label class="crm-label">
             Название
-            <input class="crm-input" formControlName="name" type="email" name="am" />
+            <input
+              [disabled]="createCorpMutation.isPending()"
+              class="crm-input"
+              formControlName="name"
+              type="email"
+              name="am"
+            />
           </label>
           <div class="flex gap-2 mt-8">
-            <button class="crm-button-primary w-full" type="submit">Добавить</button>
-            <button (click)="dMethods.close()" class="crm-button-secondary w-full" href="#">
+            <button
+              [disabled]="createCorpMutation.isPending()"
+              class="crm-button-primary w-full"
+              type="submit"
+            >
+              Добавить
+            </button>
+            <button
+              [disabled]="createCorpMutation.isPending()"
+              (click)="dMethods.close()"
+              class="crm-button-secondary w-full"
+              href="#"
+            >
               Отмена
             </button>
           </div>
