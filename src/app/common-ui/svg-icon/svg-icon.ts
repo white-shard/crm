@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { AppIcon } from './icons';
 
 @Component({
   selector: 'svg[icon]',
@@ -8,7 +9,7 @@ import { Component, Input } from '@angular/core';
   styles: [],
 })
 export class SvgIcon {
-  @Input() icon: string = '';
+  @Input() icon: AppIcon = 'list';
 
   get href() {
     return `/assets/imgs/icons/${this.icon}.svg#${this.icon}`;
