@@ -2,6 +2,6 @@ export interface DropdownItem {
   icon?: string;
   label?: string;
   color?: string;
-  onSelect?: () => unknown;
+  onClick?: () => unknown;
   value: string;
 }

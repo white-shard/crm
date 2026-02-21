@@ -20,7 +20,7 @@ export class Dropdown {
   @Input({ required: true }) values: DropdownItem[] = [];
   @Input() position: 'left' | 'center' | 'right' = 'center';
 
-  @Output() onSelect = new EventEmitter<string>();
+  @Output() onClick = new EventEmitter<string>();
 
   protected isOpened = signal<boolean>(false);
 
@@ -39,7 +39,7 @@ export class Dropdown {
   }
 
   protected select(value: string) {
-    this.onSelect.emit(value);
+    this.onClick.emit(value);
     this.close();
   }
 

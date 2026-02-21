@@ -1,8 +1,8 @@
-<h1 class="text-2xl font-bold text-primary mb-4">Компании</h1>
+<h1 class="text-2xl font-bold text-primary mb-4">Мои компании</h1>
 
 <div class="grid lg:grid-cols-3 xl:grid-cols-4 gap-8">
   @if (allCorpQuery.isPending()) {
-    @for (item of [1, 2, 3, 4, 5, 6]; track $index) {
+    @for (item of [1, 2, 3, 4]; track $index) {
       <div class="bg-primary/15 h-64 block rounded-base animate-pulse"></div>
     }
   } @else if (allCorpQuery.isError()) {
@@ -18,7 +18,13 @@
             position="right"
             [values]="[
               { icon: 'edit', label: 'Изменить', value: 'edit' },
-              { icon: 'trash', color: 'var(--color-red-500)', label: 'Удалить', value: 'delete' },
+              {
+                icon: 'trash',
+                color: 'var(--color-red-500)',
+                label: 'Удалить',
+                value: 'delete',
+                onClick: deleteCorpArrow(item.id),
+              },
             ]"
           >
             <svg
@@ -27,6 +33,21 @@
               icon="vmenu"
             />
           </dropdown>
+        </div>
+        <div>
+          <span class="font-bold block mb-2">Заявки:</span>
+          <div class="flex flex-wrap gap-x-4 text-text-background">
+            <span><b>Новые:</b> 0</span>
+            <span><b>Всего:</b> 0</span>
+          </div>
+        </div>
+        <div>
+          <span class="font-bold block mb-2">Прибыль:</span>
+          <div class="flex flex-wrap gap-x-4 text-text-background">
+            <span><b>Текущий месяц:</b> 0 руб.</span>
+            <span><b>Прогноз:</b> 0 руб.</span>
+            <span><b>Всего:</b> 0 руб.</span>
+          </div>
         </div>
       </div>
     }

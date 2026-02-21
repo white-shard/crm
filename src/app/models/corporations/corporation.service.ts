@@ -22,4 +22,10 @@ export class CorporationService {
       withCredentials: true,
     });
   }
+
+  delete(id: string) {
+    return this.http.delete<CorporationResponseDTO>(`${this.baseURL}/${id}`, {
+      withCredentials: true,
+    });
+  }
 }

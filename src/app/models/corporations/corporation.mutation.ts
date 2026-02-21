@@ -17,3 +17,15 @@ export function injectCreateCorporationMutation() {
     },
   }));
 }
+
+export function injectDeleteCorporationMutation() {
+  const corporationService = inject(CorporationService);
+  const queryClient = inject(QueryClient);
+
+  return injectMutation(() => ({
+    mutationFn: async (id: string) => lastValueFrom(corporationService.delete(id)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: corpQueryKeys.all() });
+    },
+  }));
+}
