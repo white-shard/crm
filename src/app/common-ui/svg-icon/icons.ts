@@ -11,4 +11,5 @@ export type AppIcon =
   | 'notification'
   | 'plus'
   | 'trash'
+  | 'cloud-upload'
   | 'vmenu';

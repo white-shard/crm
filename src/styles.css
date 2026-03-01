@@ -27,11 +27,20 @@ body {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-base);
   padding: 10px 12px;
+  height: 38px;
 
   &:disabled {
     background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
     cursor: not-allowed;
   }
+
+  &.ng-invalid.ng-touched {
+    border: 1px solid var(--color-red-500);
+  }
+}
+
+textarea.crm-input {
+  height: 86px;
 }
 
 .crm-label {
@@ -39,7 +48,8 @@ body {
   font-weight: 700;
   font-size: 12px;
   line-height: 16px;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   row-gap: 8px;
 }
 

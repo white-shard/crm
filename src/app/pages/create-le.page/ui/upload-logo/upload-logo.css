@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  gap: 32px;
+}
+
+.logo-input {
+  display: none;
+}
+
+.file-over {
+  border: 2px dashed var(--color-accent);
+  color: var(--color-accent);
+  background-color: color-mix(in oklab, var(--color-accent) 10%, transparent);
+}

@@ -1,0 +1,71 @@
+<div
+  class="w-screen sm:w-auto sm:min-w-lg bg-foreground p-8 rounded-base flex flex-col items-center shadow-2xl"
+>
+  <img class="w-48 mb-4" alt="ShardCRM Logo" src="/assets/imgs/logo.svg" />
+  <span class="font-bold text-text-background">Заполните данные вашей организации</span>
+
+  <form class="w-full pt-4 space-y-4" [formGroup]="form">
+    <upload-logo />
+    <div class="flex gap-2">
+      <label class="crm-label flex-1">
+        Краткое наименование
+        <input class="crm-input" formControlName="shortName" type="text" name="shortName" />
+
+        @let shortName = form.controls.shortName;
+        @if (shortName.invalid && (shortName.touched || shortName.dirty)) {
+          @if (shortName.hasError('required')) {
+            <span class="text-red-500">Поле обязательно к заполнению</span>
+          } @else if (shortName.hasError('maxlength')) {
+            <span class="text-red-500">Поле не может содержать более 32 символов</span>
+          }
+        }
+      </label>
+
+      <label class="crm-label">
+        ИНН
+        <input class="crm-input" formControlName="inn" type="text" name="inn" />
+
+        @let inn = form.controls.inn;
+        @if (inn.invalid && (inn.touched || inn.dirty)) {
+          @if (inn.hasError('required')) {
+            <span class="text-red-500">Поле обязательно к заполнению</span>
+          } @else if (inn.hasError('maxlength')) {
+            <span class="text-red-500">Поле не может содержать более 10 символов</span>
+          }
+        }
+      </label>
+    </div>
+
+    <label class="crm-label">
+      Полное наименование
+      <input class="crm-input" formControlName="fullName" type="text" name="fullName" />
+
+      @let fullName = form.controls.fullName;
+      @if (fullName.invalid && (fullName.touched || fullName.dirty)) {
+        @if (fullName.hasError('required')) {
+          <span class="text-red-500">Поле обязательно к заполнению</span>
+        } @else if (fullName.hasError('maxlength')) {
+          <span class="text-red-500">Поле не может содержать более 128 символов</span>
+        }
+      }
+    </label>
+
+    <label class="crm-label">
+      Адрес
+      <textarea class="crm-input" formControlName="address" name="address"></textarea>
+
+      @let address = form.controls.address;
+      @if (address.invalid && (address.touched || address.dirty)) {
+        @if (address.hasError('required')) {
+          <span class="text-red-500">Поле обязательно к заполнению</span>
+        } @else if (address.hasError('maxlength')) {
+          <span class="text-red-500">Поле не может содержать более 256 символов</span>
+        }
+      }
+    </label>
+
+    <button [disabled]="form.invalid" class="crm-button-primary w-full" type="submit">
+      Продолжить
+    </button>
+  </form>
+</div>
