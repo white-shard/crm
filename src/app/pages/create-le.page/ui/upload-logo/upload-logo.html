@@ -1,0 +1,24 @@
+<div class="size-32 bg-background rounded-full overflow-hidden">
+  <img [src]="preview()" class="size-32 object-cover aspect-square" />
+</div>
+
+<div
+  dnd
+  (click)="fileDrop.click()"
+  (keyup.enter)="fileDrop.click()"
+  (fileDropped)="OnFileDropped($event)"
+  tabindex="0"
+  class="flex-1 border-2 border-accent/50 border-dashed rounded-base flex flex-col justify-center items-center text-center text-accent/50"
+>
+  <svg class="size-6" icon="cloud-upload" />
+  <p class="text-xs text-text-background">Перетащите или загрузите Логотип<br />(не более 5Мб)</p>
+
+  <input
+    (change)="fileBrowserHandler($event)"
+    tabindex="-1"
+    [(ngModel)]="logo"
+    class="logo-input"
+    type="file"
+    #fileDrop
+  />
+</div>
