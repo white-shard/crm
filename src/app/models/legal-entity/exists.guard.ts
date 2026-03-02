@@ -12,3 +12,13 @@ export function LegalEntityExistsGuard() {
       catchError(() => of(router.createUrlTree(['/create']))),
     );
 }
+
+export function LegalEntityNotExistsGuard() {
+  const router = inject(Router);
+  return inject(LegalEntityService)
+    .find()
+    .pipe(
+      map((res) => (res ? router.createUrlTree(['/dashboard']) : true)),
+      catchError(() => of(true)),
+    );
+}

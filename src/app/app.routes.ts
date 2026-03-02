@@ -1,6 +1,9 @@
 import { AuthorizedAccessGuard, NotAuthorizedAccessGuard } from '@/models/auth/access.guard';
 import { Routes } from '@angular/router';
-import { LegalEntityExistsGuard } from './models/legal-entity/exists.guard';
+import {
+  LegalEntityExistsGuard,
+  LegalEntityNotExistsGuard,
+} from './models/legal-entity/exists.guard';
 import { AuthPage } from './pages/auth.page/auth.page';
 import { CreateLegalEntityPage } from './pages/create-le.page/create-le.page';
 import { DashboardPage } from './pages/dashboard.page/dashboard.page';
@@ -25,7 +28,7 @@ export const routes: Routes = [
       {
         path: 'create',
         component: CreateLegalEntityPage,
-        canActivate: [AuthorizedAccessGuard],
+        canActivate: [AuthorizedAccessGuard, LegalEntityNotExistsGuard],
       },
     ],
   },

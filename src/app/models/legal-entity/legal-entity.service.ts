@@ -22,4 +22,14 @@ export class LegalEntityService {
       withCredentials: true,
     });
   }
+
+  updateLogo(id: string, file: File) {
+    const formData = new FormData();
+
+    formData.append('file', file);
+
+    return this.http.post<LegalEntityDto>(`${this.baseURL}/${id}/update-logo`, formData, {
+      withCredentials: true,
+    });
+  }
 }
