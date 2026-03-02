@@ -36,3 +36,9 @@
     }
   </div>
 }
+
+@if (!!component()) {
+  <div class="submenu shadow-lg">
+    <ng-container [ngComponentOutlet]="component()"></ng-container>
+  </div>
+}

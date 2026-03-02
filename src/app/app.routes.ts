@@ -10,6 +10,7 @@ import { DashboardPage } from './pages/dashboard.page/dashboard.page';
 import { LandingPage } from './pages/landing.page/landing.page';
 import { AuthLayout } from './pages/layout/auth.layout/auth.layout';
 import { DashboardLayout } from './pages/layout/dashboard.layout/dashboard.layout';
+import { SalesFunnelPage } from './pages/sales-funnel.page/sales-funnel.page';
 
 export const routes: Routes = [
   {
@@ -40,6 +41,10 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardPage,
+      },
+      {
+        path: 'funnel',
+        component: SalesFunnelPage,
       },
     ],
   },

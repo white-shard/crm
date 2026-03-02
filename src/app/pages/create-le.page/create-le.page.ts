@@ -3,6 +3,7 @@ import { LegalEntityService } from '@/models/legal-entity/legal-entity.service';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { catchError, of, switchMap, tap } from 'rxjs';
 import { UploadLogo } from './ui/upload-logo/upload-logo';
 
 @Component({
@@ -31,29 +32,25 @@ export class CreateLegalEntityPage {
     this.errorMessage.set(undefined);
 
     if (this.form.valid) {
-      const values = this.form.value as unknown as CreateLegalEntityDto;
-      this.entityService.create(values).subscribe({
-        error: (err) => {
-          this.errorMessage.set(err.error.message);
-        },
-        next: (value) => {
-          if (this.logoUploader.logo !== null) {
-            this.entityService.updateLogo(value.id, this.logoUploader.logo).subscribe({
-              complete: () => {
-                this.router.navigate(['/dashboard']);
-              },
-              error: (err) => {
-                this.errorMessage.set(err.error.message);
-              },
-            });
-          }
-        },
-        complete: () => {
-          if (this.logoUploader.logo === null) {
+      const values = this.form.getRawValue() as unknown as CreateLegalEntityDto;
+
+      this.entityService
+        .create(values)
+        .pipe(
+          switchMap((entity) => {
+            if (this.logoUploader.logo) {
+              return this.entityService.updateLogo(entity.id, this.logoUploader.logo);
+            }
+            return of(null);
+          }),
+          tap(() => this.router.navigate(['/dashboard'])),
+          catchError((err) => {
+            this.errorMessage.set(err.error?.message ?? 'Unknown error');
             this.router.navigate(['/dashboard']);
-          }
-        },
-      });
+            return of(null);
+          }),
+        )
+        .subscribe();
     }
   }
 }
