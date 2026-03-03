@@ -8,8 +8,8 @@ export function LegalEntityExistsGuard() {
   return inject(LegalEntityService)
     .find()
     .pipe(
-      map((res) => !!res),
-      catchError(() => of(router.createUrlTree(['/create']))),
+      map((res) => (res ? true : router.createUrlTree(['/create']))),
+      catchError(() => of(false)),
     );
 }
 
@@ -19,6 +19,6 @@ export function LegalEntityNotExistsGuard() {
     .find()
     .pipe(
       map((res) => (res ? router.createUrlTree(['/dashboard']) : true)),
-      catchError(() => of(true)),
+      catchError(() => of(false)),
     );
 }
