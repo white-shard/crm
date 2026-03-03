@@ -24,7 +24,7 @@ export class SidebarWidget {
     },
     {
       icon: 'funnel',
-      label: 'Воронка',
+      label: 'Воронки',
       component: SalesFunnel,
     },
   ];
