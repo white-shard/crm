@@ -9,45 +9,6 @@
   </button>
 </div>
 
-@if (isEnabled()) {
-  <div class="px-4 mb-4">
-    <div class="relative">
-      <input [formControl]="field" class="crm-input w-full pr-16!" />
-
-      <div
-        class="flex gap-2 text-text-background items-center justify-end absolute top-1/2 -translate-y-1/2 right-2"
-      >
-        @if (createFunnel.isPending() || updateFunnel.isPending()) {
-          <app-loader [size]="16" />
-        } @else {
-          <svg
-            (click)="onSave()"
-            class="size-5 hover:text-primary hover:cursor-pointer"
-            icon="documents"
-          />
-          <svg
-            (click)="hideForm()"
-            class="size-5 hover:text-red-500 hover:cursor-pointer"
-            icon="x"
-          />
-        }
-      </div>
-    </div>
-
-    @if (field.invalid && field.touched) {
-      <span class="block mt-2 text-red-500 text-xs">
-        @if (field.hasError('required')) {
-          Поле обязательно для заполнения
-        } @else if (field.hasError('minlength')) {
-          Не менее 2 символов
-        } @else if (field.hasError('maxlength')) {
-          Не более 64 символов
-        }
-      </span>
-    }
-  </div>
-}
-
 @if (funnelList.isFetching()) {
   @for (item of [].constructor(funnelList.data()?.length ?? 3); track $index) {
     <div
@@ -67,7 +28,7 @@
       <span class="overflow-hidden">{{ item.displayName }}</span>
       <div class="flex gap-2 justify-end">
         <svg (click)="updateForm(item)" class="size-4 hover:text-accent" icon="edit" />
-        <svg (click)="deleteSalesFunnel(item.id)" class="size-4 hover:text-red-500" icon="trash" />
+        <svg class="size-4 hover:text-red-500" icon="trash" />
       </div>
     </div>
   }

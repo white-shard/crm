@@ -2,8 +2,8 @@ import { SvgIcon } from '@/common-ui/svg-icon/svg-icon';
 import { NgComponentOutlet } from '@angular/common';
 import { Component, inject, signal, Type } from '@angular/core';
 import { Router } from '@angular/router';
+import { FunnelListWidget } from '../funnel-list.widget/funnel-list.widget';
 import { SidebarMenuItem, SidebarSubmenuItem } from './types';
-import { SalesFunnel } from './ui/sales-funnel/sales-funnel';
 
 @Component({
   selector: 'sidebar-widget',
@@ -25,7 +25,7 @@ export class SidebarWidget {
     {
       icon: 'funnel',
       label: 'Воронки',
-      component: SalesFunnel,
+      component: FunnelListWidget,
     },
   ];
 
