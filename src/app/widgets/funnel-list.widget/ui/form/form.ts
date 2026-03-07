@@ -7,7 +7,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
+  input,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -20,14 +20,16 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrl: './form.css',
 })
 export class Form implements AfterViewInit {
-  @Input() current: SalesFunnelDto | null = null;
+  current = input<SalesFunnelDto | null>();
 
   @Output() changeFormVisible = new EventEmitter<boolean>();
+  @Output() clearSelectedForUpdate = new EventEmitter<void>();
 
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
 
   // Mutation
   createFunnel = InjectSalesFunnel.mutation.create();
+  updateFunnel = InjectSalesFunnel.mutation.update();
 
   field = new FormControl<string>('', [
     Validators.required,
@@ -38,16 +40,29 @@ export class Form implements AfterViewInit {
   onSubmit() {
     if (this.field.valid) {
       const data = { displayName: this.field.value ?? '' };
+      this.changeFormVisible.emit(false);
+
       if (this.hasEdit) {
+        this.updateFunnel
+          .mutateAsync({ ...this.current()!, ...data })
+          .then(() => this.onCancel())
+          .catch(() => {
+            this.changeFormVisible.emit(true);
+          });
       } else {
-        this.createFunnel.mutateAsync(data).then(() => this.onCancel());
+        this.createFunnel
+          .mutateAsync(data)
+          .then(() => this.onCancel())
+          .catch(() => {
+            this.changeFormVisible.emit(true);
+          });
       }
     }
   }
 
   onCancel() {
     this.field.reset();
-    this.current = null;
+    this.clearSelectedForUpdate.emit();
     this.changeFormVisible.emit(false);
   }
 
@@ -65,5 +80,6 @@ export class Form implements AfterViewInit {
 
   ngAfterViewInit() {
     this.focus();
+    this.field.setValue(this.current()?.displayName ?? '');
   }
 }

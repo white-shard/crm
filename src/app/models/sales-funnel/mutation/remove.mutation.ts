@@ -2,31 +2,24 @@ import { inject } from '@angular/core';
 import { injectMutation, QueryClient } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { KeysSalesFunnel } from '../inject.dto';
-import { CreateSalesFunnelDto, SalesFunnelDto } from '../sales-funnel.dto';
+import { SalesFunnelDto } from '../sales-funnel.dto';
 import { SalesFunnelService } from '../sales-funnel.service';
 
-export function injectCreateSalesFunnelMutation() {
+export function injectRemoveSalesFunnelMutation() {
   const funnelService = inject(SalesFunnelService);
   const queryClient = inject(QueryClient);
   const queryKey = KeysSalesFunnel.all();
 
-  const createTempItem = (data: CreateSalesFunnelDto): SalesFunnelDto => ({
-    id: 'temp-' + Date.now(),
-    displayName: data.displayName,
-    isArchive: false,
-  });
-
   return injectMutation(() => ({
-    mutationFn: async (data: CreateSalesFunnelDto) => lastValueFrom(funnelService.create(data)),
+    mutationFn: async (id: string) => lastValueFrom(funnelService.remove(id)),
 
-    onMutate: async (data: CreateSalesFunnelDto) => {
+    onMutate: async (id: string) => {
       await queryClient.cancelQueries({ queryKey });
 
       const previousItems = queryClient.getQueryData<SalesFunnelDto[]>(queryKey);
-      const newItem = createTempItem(data);
 
       queryClient.setQueryData<SalesFunnelDto[]>(queryKey, (old) =>
-        old ? [...old, newItem] : [newItem],
+        old?.filter((it) => it.id !== id),
       );
 
       return { previousItems };

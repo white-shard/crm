@@ -1,4 +1,6 @@
 import { injectCreateSalesFunnelMutation } from './mutation/create.mutation';
+import { injectRemoveSalesFunnelMutation } from './mutation/remove.mutation';
+import { injectUpdateSalesFunnelMutation } from './mutation/update.mutation';
 import { injectFindAllSalesFunnel } from './sales-funnel.query';
 
 export const KeysSalesFunnel = {
@@ -13,5 +15,7 @@ export const InjectSalesFunnel = {
   },
   mutation: {
     create: injectCreateSalesFunnelMutation,
+    update: injectUpdateSalesFunnelMutation,
+    remove: injectRemoveSalesFunnelMutation,
   },
 };

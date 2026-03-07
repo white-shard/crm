@@ -10,9 +10,19 @@
 </div>
 
 @if (isFormVisible()) {
-  <funnel-form (changeFormVisible)="setFormVisible($event)" />
+  <funnel-form
+    [current]="current()"
+    (changeFormVisible)="setFormVisible($event)"
+    (clearSelectedForUpdate)="setCurrent(null)"
+  />
 }
 
-@for (item of funnelList.data(); track item.id) {
-  <funnel-item [data]="item" />
+@if (funnelList.isPending()) {
+  <div class="w-full flex justify-center pt-4">
+    <app-loader [size]="24" />
+  </div>
+}
+
+@for (item of sortList(funnelList.data() ?? []); track item.id) {
+  <funnel-item (onSelectedForUpdate)="setCurrent($event)" [data]="item" />
 }
