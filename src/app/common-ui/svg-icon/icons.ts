@@ -13,5 +13,6 @@ export type AppIcon =
   | 'trash'
   | 'cloud-upload'
   | 'x'
+  | 'reorder'
   | 'documents'
   | 'vmenu';

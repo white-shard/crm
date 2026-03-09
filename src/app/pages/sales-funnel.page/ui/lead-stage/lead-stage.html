@@ -1,0 +1,15 @@
+<div
+  [style.color]="calculateTestColor('#000')"
+  class="bg-accent pl-1 pr-4 py-2 rounded-base w-sm flex gap-2 select-none items-center"
+>
+  @if (hasEdit()) {
+    <stage-form [stage]="stage()" (hideForm)="hasEdit.set(false)" />
+  } @else {
+    <svg class="size-6 cursor-move opacity-50 hover:opacity-100" icon="reorder" />
+    <span class="flex-1 block font-bold text-ellipsis text-nowrap overflow-hidden">
+      {{ stage().displayName }}</span
+    >
+    <svg (click)="hasEdit.set(true)" class="size-4 opacity-50 hover:opacity-100" icon="edit" />
+    <svg (click)="remove()" class="size-4 opacity-50 hover:opacity-100" icon="trash" />
+  }
+</div>
