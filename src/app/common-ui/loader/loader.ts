@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-loader',
   imports: [],
   templateUrl: './loader.html',
 })
-export class Loader {}
+export class Loader {
+  @Input() size: number = 24;
+}

@@ -1,0 +1,27 @@
+@if (stages.isPending()) {
+  <div class="bg-primary/10 w-sm rounded-base justify-center px-4 py-1 flex items-center">
+    Загрузка...
+  </div>
+}
+@if (stages.isSuccess()) {
+  @for (item of stages.data(); track $index) {
+    <app-lead-stage [stage]="item" />
+  }
+
+  @if (stages.data().length) {
+    <div
+      (click)="createNewStage()"
+      class="border-dashed border-primary border-2 rounded-base px-4 py-1 flex items-center opacity-50 hover:opacity-100 hover:cursor-pointer"
+    >
+      <svg class="size-5 text-primary" icon="plus" />
+    </div>
+  } @else {
+    <div
+      (click)="createNewStage()"
+      class="border-dashed border-primary border-2 rounded-base px-4 py-1 flex items-center justify-center opacity-50 hover:opacity-100 hover:cursor-pointer gap-2 w-sm"
+    >
+      Пусто. Добавить колонку
+      <svg class="size-5 text-primary" icon="plus" />
+    </div>
+  }
+}

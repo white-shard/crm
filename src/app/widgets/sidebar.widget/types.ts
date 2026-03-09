@@ -4,6 +4,7 @@ export interface SidebarMenuItem {
   icon: AppIcon;
   label: string;
   submenu?: SidebarSubmenuItem[];
+  component?: any;
   action?: () => void;
 }
 

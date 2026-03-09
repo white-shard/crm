@@ -1,0 +1,38 @@
+<div class="px-4 mb-4">
+  <div class="relative">
+    <input
+      #input
+      (keydown.esc)="onCancel()"
+      (keydown.enter)="onSubmit()"
+      [formControl]="field"
+      class="crm-input w-full pr-16!"
+    />
+
+    <div
+      class="flex gap-2 text-text-background items-center justify-end absolute top-1/2 -translate-y-1/2 right-2"
+    >
+      @if (hasPending) {
+        <app-loader [size]="16" />
+      } @else {
+        <svg
+          (click)="onSubmit()"
+          class="size-5 hover:text-primary hover:cursor-pointer"
+          icon="documents"
+        />
+        <svg (click)="onCancel()" class="size-5 hover:text-red-500 hover:cursor-pointer" icon="x" />
+      }
+    </div>
+  </div>
+
+  @if (field.invalid && field.touched) {
+    <span class="block mt-2 text-red-500 text-xs">
+      @if (field.hasError('required')) {
+        Поле обязательно для заполнения
+      } @else if (field.hasError('minlength')) {
+        Не менее 2 символов
+      } @else if (field.hasError('maxlength')) {
+        Не более 64 символов
+      }
+    </span>
+  }
+</div>

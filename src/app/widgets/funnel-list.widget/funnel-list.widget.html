@@ -1,0 +1,28 @@
+<div class="flex items-center justify-between p-4">
+  <h1 class="text-xl font-bold text-text-background">Воронки</h1>
+  <button
+    (click)="toggleForm()"
+    class="border border-accent text-accent rounded-base px-2 py-1 text-sm flex gap-2 items-center hover:bg-accent/10 hover:cursor-pointer"
+  >
+    <svg class="size-3" icon="plus" />
+    добавить
+  </button>
+</div>
+
+@if (isFormVisible()) {
+  <funnel-form
+    [current]="current()"
+    (changeFormVisible)="setFormVisible($event)"
+    (clearSelectedForUpdate)="setCurrent(null)"
+  />
+}
+
+@if (funnelList.isPending()) {
+  <div class="w-full flex justify-center pt-4">
+    <app-loader [size]="24" />
+  </div>
+}
+
+@for (item of sortList(funnelList.data() ?? []); track item.id) {
+  <funnel-item (onSelectedForUpdate)="setCurrent($event)" [data]="item" />
+}

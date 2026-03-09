@@ -10,9 +10,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './upload-logo.css',
 })
 export class UploadLogo {
-  preview = signal<string>('');
+  preview = signal<string>('#');
 
-  logo = null;
+  logo: File | null = null;
 
   fileBrowserHandler(event: Event) {
     const file = (event.target as HTMLInputElement)?.files?.[0];
@@ -33,5 +33,7 @@ export class UploadLogo {
     };
 
     reader.readAsDataURL(file);
+
+    this.logo = file;
   }
 }

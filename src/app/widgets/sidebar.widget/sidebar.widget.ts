@@ -1,16 +1,19 @@
 import { SvgIcon } from '@/common-ui/svg-icon/svg-icon';
-import { Component, inject, signal } from '@angular/core';
+import { NgComponentOutlet } from '@angular/common';
+import { Component, inject, signal, Type } from '@angular/core';
 import { Router } from '@angular/router';
+import { FunnelListWidget } from '../funnel-list.widget/funnel-list.widget';
 import { SidebarMenuItem, SidebarSubmenuItem } from './types';
 
 @Component({
   selector: 'sidebar-widget',
-  imports: [SvgIcon],
+  imports: [SvgIcon, NgComponentOutlet],
   templateUrl: './sidebar.widget.html',
   styleUrl: './sidebar.widget.css',
 })
 export class SidebarWidget {
   submenu = signal<SidebarSubmenuItem[]>([]);
+  component = signal<Type<any> | null>(null);
 
   router = inject(Router);
   menu: SidebarMenuItem[] = [
@@ -21,14 +24,8 @@ export class SidebarWidget {
     },
     {
       icon: 'funnel',
-      label: 'Воронка',
-      submenu: [
-        {
-          icon: 'funnel',
-          label: 'Воронка продаж',
-          action: this.goTo(['/funnel']),
-        },
-      ],
+      label: 'Воронки',
+      component: FunnelListWidget,
     },
   ];
 
@@ -37,19 +34,19 @@ export class SidebarWidget {
   }
 
   public onSidebarMenuItemClick(item: SidebarMenuItem) {
-    if (this.submenu() !== item.submenu) {
-      this.submenu.set([]);
+    if (item.submenu) {
+      this.component.set(null);
+      this.submenu.update((current) => (current === item.submenu ? [] : item.submenu!));
+      return;
     }
 
-    if (!!item.submenu) {
-      if (this.submenu() !== item.submenu) {
-        this.submenu.set(item.submenu);
-      } else {
-        this.submenu.set([]);
-      }
-    } else if (item.action) {
-      item.action();
+    if (item.component) {
+      this.submenu.set([]);
+      this.component.update((current) => (current === item.component ? null : item.component!));
+      return;
     }
+
+    item.action?.();
   }
 
   public onSidebarSubmenuItemClick(item: SidebarSubmenuItem) {

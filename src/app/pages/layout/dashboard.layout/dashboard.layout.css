@@ -13,5 +13,5 @@
 .dashboard_header {
   background-color: white;
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
 }
