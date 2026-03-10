@@ -36,6 +36,13 @@ export class LeadStageService {
     });
   }
 
+  changeOrder(id: string, newOrder: number) {
+    return this.http.post<LeadStageDto>(`${this.baseURL}/order/${id}`, undefined, {
+      withCredentials: true,
+      params: { index: newOrder },
+    });
+  }
+
   remove(id: string) {
     return this.http.delete<LeadStageDto>(`${this.baseURL}/${id}`, {
       withCredentials: true,

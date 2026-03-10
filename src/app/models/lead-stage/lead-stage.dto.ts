@@ -8,8 +8,12 @@ export interface CreateLeadStageDto {
 export interface UpdateLeadStageDto {
   displayName?: string;
   color?: string;
-  index?: number;
   isArchive?: boolean;
+}
+
+export interface ChangeOrderLeadStageDto {
+  id: string;
+  newOrder: number;
 }
 
 export interface LeadStageDto {

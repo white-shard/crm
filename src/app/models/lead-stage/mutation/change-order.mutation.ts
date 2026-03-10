@@ -2,26 +2,37 @@ import { inject } from '@angular/core';
 import { injectMutation, QueryClient } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { KeysLeadStage } from '../inject.dto';
-import { LeadStageDto, LeadStageUpdateDto } from '../lead-stage.dto';
+import { ChangeOrderLeadStageDto, LeadStageDto } from '../lead-stage.dto';
 import { LeadStageService } from '../lead-stage.service';
 
-export function injectUpdateLeadStageMutation(funnelId: string) {
+export function injectChangeOrderLeadStageMutation(funnelId: string) {
   const stageService = inject(LeadStageService);
   const queryClient = inject(QueryClient);
   const queryKey = KeysLeadStage.list(funnelId);
 
   return injectMutation(() => ({
-    mutationFn: async (data: LeadStageUpdateDto) => {
-      const { id, ...other } = data;
-      return lastValueFrom(stageService.update(id, { ...other }));
+    mutationFn: async (data: ChangeOrderLeadStageDto) => {
+      const { id, newOrder } = data;
+      return lastValueFrom(stageService.changeOrder(id, newOrder));
     },
-    onMutate: async (data: LeadStageUpdateDto) => {
+    onMutate: async (data: ChangeOrderLeadStageDto) => {
       await queryClient.cancelQueries({ queryKey });
 
       const previousItems = queryClient.getQueryData<LeadStageDto[]>(queryKey);
+      const oldOrder = previousItems?.find((it) => it.id === data.id)?.index;
 
       queryClient.setQueryData<LeadStageDto[]>(queryKey, (old) =>
-        old?.map((item) => (item.id === data.id ? { ...item, ...data } : item)),
+        old?.map((item) => {
+          if (item.index === oldOrder) {
+            return { ...item, index: data.newOrder };
+          }
+
+          if (item.index === data.newOrder) {
+            return { ...item, index: oldOrder! };
+          }
+
+          return item;
+        }),
       );
 
       return { previousItems };

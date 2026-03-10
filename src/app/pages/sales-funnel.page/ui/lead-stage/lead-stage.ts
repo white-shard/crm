@@ -24,13 +24,13 @@ export class LeadStage {
 
   // Mutation
   private removeStage;
-  private updateStage;
+  private changeOrder;
 
   constructor(private route: ActivatedRoute) {
     this.funnelId = this.route.snapshot.queryParamMap.get('id') ?? '';
 
     this.removeStage = InjectLeadStage.mutation.remove(this.funnelId);
-    this.updateStage = InjectLeadStage.mutation.update(this.funnelId);
+    this.changeOrder = InjectLeadStage.mutation.changeOrder(this.funnelId);
   }
 
   calculateTestColor(color: string) {
@@ -52,21 +52,21 @@ export class LeadStage {
   }
 
   moveLeft() {
-    if (this.updateStage.isPending() || this.removeStage.isPending()) return;
+    if (this.changeOrder.isPending() || this.removeStage.isPending()) return;
     if (this.stage().index > 0) {
-      this.updateStage.mutate({
+      this.changeOrder.mutate({
         id: this.stage().id,
-        index: this.stage().index - 1,
+        newOrder: this.stage().index - 1,
       });
     }
   }
 
   moveRight() {
-    if (this.updateStage.isPending() || this.removeStage.isPending()) return;
+    if (this.changeOrder.isPending() || this.removeStage.isPending()) return;
     if (this.stage().index < this.stageCount() - 1) {
-      this.updateStage.mutate({
+      this.changeOrder.mutate({
         id: this.stage().id,
-        index: this.stage().index + 1,
+        newOrder: this.stage().index + 1,
       });
     }
   }

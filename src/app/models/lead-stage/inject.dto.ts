@@ -1,4 +1,5 @@
 import { injectFindAllLeadStageByFunnelId } from './lead-stage.query';
+import { injectChangeOrderLeadStageMutation } from './mutation/change-order.mutation';
 import { injectCreateLeadStageMutation } from './mutation/create.mutation';
 import { injectRemoveLeadStageMutation } from './mutation/remove.mutation';
 import { injectUpdateLeadStageMutation } from './mutation/update.mutation';
@@ -16,5 +17,6 @@ export const InjectLeadStage = {
     create: injectCreateLeadStageMutation,
     update: injectUpdateLeadStageMutation,
     remove: injectRemoveLeadStageMutation,
+    changeOrder: injectChangeOrderLeadStageMutation,
   },
 };
