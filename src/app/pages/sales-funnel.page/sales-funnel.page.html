@@ -4,9 +4,17 @@
   </div>
 }
 @if (stages.isSuccess()) {
-  @for (item of stages.data(); track $index) {
-    <app-lead-stage [stage]="item" />
-  }
+  <div class="flex gap-2">
+    @for (item of sortStages(stages.data()); track item.id) {
+      <app-lead-stage
+        [isEditing]="editingStageId() === item.id"
+        (onStartEdit)="editingStageId.set(item.id)"
+        (onStopEdit)="editingStageId.set(null)"
+        [stage]="item"
+        [stageCount]="stages.data().length"
+      />
+    }
+  </div>
 
   @if (stages.data().length) {
     <div

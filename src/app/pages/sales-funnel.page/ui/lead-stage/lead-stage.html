@@ -1,15 +1,48 @@
 <div
-  [style.color]="calculateTestColor('#000')"
-  class="bg-accent pl-1 pr-4 py-2 rounded-base w-sm flex gap-2 select-none items-center"
+  [style.color]="calculateTestColor(`#${stage().color}`)"
+  [style.backgroundColor]="`#${stage().color}`"
+  class="pl-1 pr-4 py-2 group rounded-base relative w-sm flex gap-2 select-none items-center shadow-sm"
 >
-  @if (hasEdit()) {
-    <stage-form [stage]="stage()" (hideForm)="hasEdit.set(false)" />
+  @if (isEditing()) {
+    <stage-form [stage]="stage()" (hideForm)="stopEdit()" />
   } @else {
-    <svg class="size-6 cursor-move opacity-50 hover:opacity-100" icon="reorder" />
+    @if (stage().index > 0) {
+      <svg
+        (click)="moveLeft()"
+        [style.backgroundColor]="`#${stage().color}`"
+        class="size-6 opacity-50 cursor-pointer hover:opacity-100 hidden group-hover:block"
+        icon="caret-left"
+      />
+    } @else {
+      <div class="w-6 hidden group-hover:block"></div>
+    }
+
+    <svg class="size-6 opacity-50 group-hover:hidden" icon="reorder" />
     <span class="flex-1 block font-bold text-ellipsis text-nowrap overflow-hidden">
       {{ stage().displayName }}</span
     >
-    <svg (click)="hasEdit.set(true)" class="size-4 opacity-50 hover:opacity-100" icon="edit" />
-    <svg (click)="remove()" class="size-4 opacity-50 hover:opacity-100" icon="trash" />
+    <svg
+      (click)="startEdit()"
+      (keyup.enter)="startEdit()"
+      tabindex="3"
+      class="size-4 opacity-50 hover:opacity-100 cursor-pointer"
+      icon="edit"
+    />
+    <svg
+      (click)="remove()"
+      (keyup.enter)="remove()"
+      tabindex="3"
+      class="size-4 opacity-50 hover:opacity-100 cursor-pointer"
+      icon="trash"
+    />
+
+    @if (stage().index < stageCount() - 1) {
+      <svg
+        (click)="moveRight()"
+        [style.backgroundColor]="`#${stage().color}`"
+        class="size-6 opacity-50 cursor-pointer hover:opacity-100 hidden group-hover:block"
+        icon="caret-right"
+      />
+    }
   }
 </div>

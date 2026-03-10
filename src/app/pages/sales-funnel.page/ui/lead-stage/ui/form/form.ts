@@ -1,3 +1,4 @@
+import { SelectColor } from '@/common-ui/select-color/select-color';
 import { SvgIcon } from '@/common-ui/svg-icon/svg-icon';
 import { InjectLeadStage } from '@/models/lead-stage/inject.dto';
 import { LeadStageDto } from '@/models/lead-stage/lead-stage.dto';
@@ -6,22 +7,27 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   input,
   Output,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { StageColors } from '../../lead-stage.colors';
 
 @Component({
   selector: 'stage-form',
-  imports: [SvgIcon, ReactiveFormsModule],
+  imports: [SvgIcon, ReactiveFormsModule, SelectColor],
   templateUrl: './form.html',
   styleUrl: './form.css',
 })
 export class StageForm implements AfterViewInit {
   private funnelId;
   stage = input.required<LeadStageDto>();
+  color = signal<string>('000000');
+  colors = StageColors;
 
   // Mutations
   public updateStage;
@@ -29,6 +35,11 @@ export class StageForm implements AfterViewInit {
   @Output() hideForm = new EventEmitter<void>();
 
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
+
+  @HostListener('document:keyup.escape', ['$event'])
+  onKeyupEscape(event: Event) {
+    this.closeForm(event);
+  }
 
   field = new FormControl<string>('', [
     Validators.required,
@@ -45,6 +56,7 @@ export class StageForm implements AfterViewInit {
   ngAfterViewInit() {
     this.focus();
     this.field.setValue(this.stage().displayName);
+    this.color.set(this.stage().color);
   }
 
   focus() {
@@ -63,6 +75,7 @@ export class StageForm implements AfterViewInit {
     this.updateStage.mutate({
       id: this.stage().id,
       displayName: String(this.field.getRawValue()),
+      color: this.color(),
     });
   }
 }

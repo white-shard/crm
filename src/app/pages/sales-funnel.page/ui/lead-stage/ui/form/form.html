@@ -1,13 +1,28 @@
-<div
-  class="ml-1 border-2 rounded-full size-5 cursor-pointer bg-transparent hover:bg-white/10"
-></div>
+<select-color
+  [colors]="colors"
+  [defaultValue]="color()"
+  (onSelect)="color.set($event)"
+  (onClosed)="focus()"
+/>
 <input
   #input
+  tabindex="2"
   (keyup.enter)="onSave()"
-  (keyup.escape)="closeForm($event)"
   [formControl]="field"
   class="flex-1 edit_name_input"
   type="text"
 />
-<svg (click)="onSave()" class="size-4 opacity-50 hover:opacity-100" icon="documents" />
-<svg (click)="closeForm($event)" class="size-4 opacity-50 hover:opacity-100" icon="x" />
+<svg
+  tabindex="2"
+  (click)="onSave()"
+  (keyup.enter)="onSave()"
+  class="size-4 opacity-50 hover:opacity-100"
+  icon="documents"
+/>
+<svg
+  tabindex="2"
+  (click)="closeForm($event)"
+  (keyup.enter)="closeForm($event)"
+  class="size-4 opacity-50 hover:opacity-100"
+  icon="x"
+/>

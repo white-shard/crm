@@ -1,0 +1,22 @@
+<div
+  tabindex="2"
+  (click)="toggleOpened()"
+  [style.backgroundColor]="`#${currentValue()}`"
+  class="ml-1 border-2 rounded-full size-5 cursor-pointer bg-transparent hover:bg-white/10"
+></div>
+
+@if (isOpened()) {
+  <div
+    class="absolute left-5 top-4.5 bg-white flex flex-wrap w-30 gap-2 p-2 rounded-base shadow-md"
+  >
+    @for (color of colors(); track color) {
+      <div
+        (click)="selectColor(color)"
+        (keyup.enter)="selectColor(color)"
+        [style.backgroundColor]="`#${color}`"
+        tabindex="1"
+        class="border-2 rounded-full size-5 cursor-pointer bg-transparent hover:bg-white/10"
+      ></div>
+    }
+  </div>
+}

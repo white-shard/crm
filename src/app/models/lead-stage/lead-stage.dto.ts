@@ -19,6 +19,9 @@ export interface LeadStageDto {
   index: number;
   funnelId: string;
   isArchive: boolean;
+
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface LeadStageUpdateDto {

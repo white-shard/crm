@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { injectMutation, QueryClient } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
+import { normalizeIndexes } from 'utils';
 import { KeysLeadStage } from '../inject.dto';
 import { LeadStageDto, LeadStageUpdateDto } from '../lead-stage.dto';
 import { LeadStageService } from '../lead-stage.service';
@@ -20,9 +21,20 @@ export function injectUpdateLeadStageMutation(funnelId: string) {
 
       const previousItems = queryClient.getQueryData<LeadStageDto[]>(queryKey);
 
-      queryClient.setQueryData<LeadStageDto[]>(queryKey, (old) =>
-        old?.map((item) => (item.id === data.id ? { ...item, ...data } : item)),
-      );
+      queryClient.setQueryData<LeadStageDto[]>(queryKey, (old) => {
+        if (!old) return undefined;
+
+        const newList = old.map((item) =>
+          item.id === data.id
+            ? {
+                ...item,
+                ...data,
+                updatedAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+              }
+            : item,
+        );
+        return normalizeIndexes(newList);
+      });
 
       return { previousItems };
     },

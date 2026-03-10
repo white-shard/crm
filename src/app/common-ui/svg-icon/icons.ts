@@ -1,5 +1,7 @@
 export type AppIcon =
   | 'analytic'
+  | 'caret-left'
+  | 'caret-right'
   | 'caret-down'
   | 'caret-up'
   | 'corp'

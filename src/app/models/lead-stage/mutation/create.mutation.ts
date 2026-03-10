@@ -14,6 +14,8 @@ export function injectCreateLeadStageMutation(funnelId: string) {
     ...data,
     id: 'temp-' + Date.now(),
     isArchive: false,
+    createdAt: new Date(Date.now()).toDateString(),
+    updatedAt: new Date(Date.now()).toDateString(),
   });
 
   return injectMutation(() => ({

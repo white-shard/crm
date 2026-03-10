@@ -27,3 +27,22 @@ export function getReadableTextColor(background: string): 'primary' | 'primary-f
 
   return brightness > 186 ? 'primary' : 'primary-foreground';
 }
+
+type WithIndexAndDate = {
+  index: number;
+  updatedAt: string | Date;
+};
+
+export function normalizeIndexes<T extends WithIndexAndDate>(items: T[]): T[] {
+  return [...items]
+    .sort((a, b) => {
+      const indexDiff = a.index - b.index;
+      if (indexDiff !== 0) return indexDiff;
+
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    })
+    .map((item, i) => ({
+      ...item,
+      index: i,
+    }));
+}
